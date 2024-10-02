@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace NotificationSystem._Core.Entities
 {
-    public class Notification
+    public class Notification : ICloneable
     {
         public string Message { get; set; }
         public DateTime Date { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone(); 
+        }
     }
 }

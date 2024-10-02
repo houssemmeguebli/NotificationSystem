@@ -62,11 +62,11 @@ namespace NotificationSystem.Application.Services
                 return;
             }
 
-            Notification notification;
+            Notification baseNotification;
             try
             {
                 // Map NotificationDto to Notification
-                notification = _mapper.Map<Notification>(notificationDto);
+                baseNotification = _mapper.Map<Notification>(notificationDto);
             }
             catch (Exception ex)
             {
@@ -74,12 +74,16 @@ namespace NotificationSystem.Application.Services
                 return; // Exit if mapping fails
             }
 
-            // Notify all observers
+            // Notify all observers with a customized message
             foreach (var observer in _observers)
             {
                 try
                 {
-                    observer.Update(notification);
+                    // Clone the base notification to customize for each observer
+                    var customizedNotification = (Notification)baseNotification.Clone();
+                    customizedNotification.Message = $"Hello {observer.Name}, {baseNotification.Message}";
+
+                    observer.Update(customizedNotification);
                 }
                 catch (Exception ex)
                 {
@@ -88,7 +92,7 @@ namespace NotificationSystem.Application.Services
             }
         }
 
-        public void RespondToObserver(IObserver observer, string message)
+        public void MessageFromObserver(IObserver observer, string message)
         {
             if (observer == null)
             {
@@ -102,12 +106,48 @@ namespace NotificationSystem.Application.Services
                 return;
             }
 
-            Console.WriteLine($"Response to {observer.Name}: {message}");
+            Console.WriteLine($"Message From {observer.Name}: {message}");
         }
 
         public void NotifyObservers(Notification notification)
         {
             throw new NotImplementedException();
         }
+        public void SendAnnouncement(NotificationDto notificationDto)
+        {
+            if (notificationDto == null)
+            {
+                Console.WriteLine("NotificationDto cannot be null.");
+                return;
+            }
+
+            Notification notification;
+            try
+            {
+                // Map NotificationDto to Notification
+                notification = _mapper.Map<Notification>(notificationDto);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error mapping NotificationDto to Notification: {ex.Message}");
+                return; // Exit if mapping fails
+            }
+
+            // Notify all observers with the same message
+            foreach (var observer in _observers)
+            {
+                try
+                {
+                    observer.Update(notification);
+                    Console.WriteLine($"Announcement sent to {observer.Name}: {notification.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error notifying observer {observer.Name}: {ex.Message}");
+                }
+            }
+        }
+       
+
     }
 }

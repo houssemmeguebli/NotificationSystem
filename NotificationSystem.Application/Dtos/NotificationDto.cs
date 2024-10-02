@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace NotificationSystem.Application.Dtos
 {
-    public class NotificationDto
+    public class NotificationDto : ICloneable
     {
         public string Message { get; set; }
         public DateTime Date { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone(); 
+        }
     }
+    
 }

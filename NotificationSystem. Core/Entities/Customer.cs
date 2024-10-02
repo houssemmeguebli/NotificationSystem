@@ -24,7 +24,7 @@ namespace NotificationSystem._Core.Entities
         public void SendMessage(string message, ISubject subject)
         {
             Console.WriteLine($"{Name} sends message to e-commerce business: {message}");
-            subject.RespondToObserver(this, "Thank you for your query. We will get back to you shortly.");
+            subject.MessageFromObserver(this, "Thank you for your query. We will get back to you shortly.");
         }
     }
 
