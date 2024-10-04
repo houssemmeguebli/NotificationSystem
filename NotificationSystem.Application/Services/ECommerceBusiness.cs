@@ -54,43 +54,39 @@ namespace NotificationSystem.Application.Services
             }
         }
 
-        public void NotifyObservers(NotificationDto notificationDto)
+        public void NotifyObservers(List<NotificationDto> notificationDtos)
         {
-            if (notificationDto == null)
+            if (notificationDtos == null || notificationDtos.Count == 0)
             {
-                Console.WriteLine("NotificationDto cannot be null.");
+                Console.WriteLine("Notification list cannot be null or empty.");
                 return;
             }
 
-            Notification baseNotification;
-            try
-            {
-                // Map NotificationDto to Notification
-                baseNotification = _mapper.Map<Notification>(notificationDto);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error mapping NotificationDto to Notification: {ex.Message}");
-                return; // Exit if mapping fails
-            }
-
-            // Notify all observers with a customized message
-            foreach (var observer in _observers)
+            foreach (var notificationDto in notificationDtos)
             {
                 try
                 {
-                    // Clone the base notification to customize for each observer
-                    var customizedNotification = (Notification)baseNotification.Clone();
-                    customizedNotification.Message = $"Hello {observer.Name}, {baseNotification.Message}";
+                    // Map NotificationDto to Notification
+                    var notification = _mapper.Map<Notification>(notificationDto);
 
-                    observer.Update(customizedNotification);
+                    // Find the correct customer by CustomerId
+                    var observer = _observers.FirstOrDefault(o => o.CustomerId == notification.CustomerId);
+                    if (observer != null)
+                    {
+                        observer.Update(notification);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No observer found for CustomerId {notification.CustomerId}");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error notifying observer {observer.Name}: {ex.Message}");
+                    Console.WriteLine($"Error mapping or notifying: {ex.Message}");
                 }
             }
         }
+
 
         public void MessageFromObserver(IObserver observer, string message)
         {

@@ -8,7 +8,10 @@ namespace NotificationSystem._Core.Entities
 {
     public class Notification : ICloneable
     {
+   
+
         public string Message { get; set; }
+        public long CustomerId { get; set; }
         public DateTime Date { get; set; }
 
         public object Clone()

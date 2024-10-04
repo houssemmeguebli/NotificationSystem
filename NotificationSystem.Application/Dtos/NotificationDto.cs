@@ -8,8 +8,10 @@ namespace NotificationSystem.Application.Dtos
 {
     public class NotificationDto : ICloneable
     {
+        
         public string Message { get; set; }
         public DateTime Date { get; set; }
+        public long CustomerId { get; set; }
 
         public object Clone()
         {

@@ -9,11 +9,14 @@ namespace NotificationSystem._Core.Entities
 {
     public class Customer : IObserver
     {
-        public string Name { get; private set; }
+        public long CustomerId { get; set; }
 
-        public Customer(string name)
+        public string Name { get;  set; }
+
+        public Customer(long customerId ,string name)
         {
             Name = name;
+            CustomerId = customerId;
         }
 
         public virtual void Update(Notification notification)
