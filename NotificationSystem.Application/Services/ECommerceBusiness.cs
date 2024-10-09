@@ -109,6 +109,7 @@ namespace NotificationSystem.Application.Services
         {
             throw new NotImplementedException();
         }
+
         public void SendAnnouncement(NotificationDto notificationDto)
         {
             if (notificationDto == null)
@@ -143,7 +144,10 @@ namespace NotificationSystem.Application.Services
                 }
             }
         }
-       
 
+        public void SendAnnouncement(Notification notificationDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

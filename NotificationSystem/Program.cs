@@ -33,7 +33,8 @@ var notifications = new List<NotificationDto>
 {
     new NotificationDto { CustomerId = 1, Message = $"Hello Alice, a new product is available!" },
     new NotificationDto { CustomerId = 2, Message = $"Hey Bob, check out our new product!" },
-    new NotificationDto { CustomerId = 3, Message = $"Hi Charlie, we have a brand new product for you!" }
+    new NotificationDto { CustomerId = 3, Message = $"Hi Charlie, we have a brand new product for you!" },
+    
 };
 eCommerceBusiness.NotifyObservers(notifications);
 Console.WriteLine();

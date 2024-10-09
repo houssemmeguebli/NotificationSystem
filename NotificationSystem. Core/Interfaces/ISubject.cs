@@ -13,5 +13,6 @@ namespace NotificationSystem._Core.Interfaces
         void Unsubscribe(IObserver observer);
         void NotifyObservers(Notification notification);
         void MessageFromObserver(IObserver observer, string message);
+        public void SendAnnouncement(Notification notificationDto);
     }
 }
